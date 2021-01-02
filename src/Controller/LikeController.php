@@ -53,7 +53,7 @@ class LikeController extends AbstractController
      * @Route("/like/{id}", name="like")
      * 
      */
-    public function likeProduct(int $id){
+    public function toggleLike(int $id){
 
        
         $user_id = $this->getUser()->getId();
@@ -77,6 +77,9 @@ class LikeController extends AbstractController
 
             return $this->redirectToRoute('home');
         }
+
+            $this->entityManager->remove($productLike);
+            $this->entityManager->flush();
 
         return $this->redirectToRoute('home');
     }
