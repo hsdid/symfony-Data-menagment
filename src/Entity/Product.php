@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,17 @@ class Product
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="products")
      */
     private $user;
+
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LikeProduct", mappedBy="product", cascade={"REMOVE"})
+     */
+    private $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +82,36 @@ class Product
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LikeProduct[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(LikeProduct $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(LikeProduct $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getProduct() === $this) {
+                $like->setProduct(null);
+            }
+        }
 
         return $this;
     }
