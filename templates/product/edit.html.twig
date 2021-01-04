@@ -23,7 +23,7 @@ Edit Products
         <label for="info">info</label>
         <input type="text" name="info" id="inputInfo" class="form-control" value="{{product.info}}">
 
-        
+        <input type="date" name="date" id="inputDate" class="form-control" value="{{product.getPublicDate|date("Y-m-d")}}">
 
         <button class="btn btn-lg btn-primary" type="submit">
             edit product

@@ -64,4 +64,62 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+
+
+    public function userDescProducts() {
+
+        $qb = $this->createQueryBuilder('u')
+        ->select('COUNT(p) AS HIDDEN nbrProducts', 'u')
+        ->leftJoin('u.products', 'p') 
+        ->orderBy('nbrProducts', 'DESC')
+        ->groupBy('u')
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
+    public function userASCProducts() {
+
+        $qb = $this->createQueryBuilder('u')
+        ->select('COUNT(p) AS HIDDEN nbrProducts', 'u')
+        ->leftJoin('u.products', 'p') 
+        ->orderBy('nbrProducts', 'ASC')
+        ->groupBy('u')
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
+
+    public function userDescLikes() {
+
+        $qb = $this->createQueryBuilder('u')
+        ->select('COUNT(l) AS HIDDEN nbrLikes', 'u')
+        ->leftJoin('u.likes', 'l') 
+        ->orderBy('nbrLikes', 'DESC')
+        ->groupBy('u')
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
+    public function userASCLikes() {
+
+        $qb = $this->createQueryBuilder('u')
+        ->select('COUNT(l) AS HIDDEN nbrLikes', 'u')
+        ->leftJoin('u.likes', 'l') 
+        ->orderBy('nbrLikes', 'ASC')
+        ->groupBy('u')
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
 }

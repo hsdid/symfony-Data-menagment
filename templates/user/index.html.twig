@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}User!{% endblock %}
 
 {% block body %}
 <style>
@@ -29,8 +29,9 @@
                             <th scope="col">name</th>
                             {# <th scope="col">info</th>
                             <th scope="col"><a href="/product/sortByDate/ASC"> public time</a> </th> #}
-                            <th scope="col">products</th>
-                            <th scope="col">likes</th>
+                            <th scope="col"> <a href="/user/sortByProducts/ASC"> products</a></th>
+                            <th scope="col"><a href="/user/sortByLikes/DESC"> likes</a></th>
+                            
                         </tr>
                        
                 </thead>
@@ -46,11 +47,7 @@
                     {# <td>{{ product.getPublicDate|date("Y-m-d") }} </td> #}
                     <td>{{ user.products.count }} </td>
                     <td>{{ user.likes.count }} </td>
-                    <td>
-                        {# <a href="/product/{{ product.id }}" class="btn btn-light">Edit</a>
-                       
-                        <a href="/product/{{ product.id }}" class="btn btn-danger delete-product">Delete</a> #}
-                    </td> 
+                   
                    
                 </tr>
 

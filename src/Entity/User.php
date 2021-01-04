@@ -48,10 +48,15 @@ class User implements UserInterface
      */
     private $likes;
 
+
+    
+    private $likedProduct;
+
     public function __construct()
     {
-        $this->products = new ArrayCollection();
-        $this->likes = new ArrayCollection();
+        $this->products     = new ArrayCollection();
+        $this->likes        = new ArrayCollection();
+        $this->likedProduct = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,5 +190,21 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+      /**
+     * @return Collection|Product[]
+     */
+    public function getLikedProduct()
+    {
+        //dd($userLikes[0]->getProduct());
+        $userLikes = $this->getLikes();
+        
+        foreach ($userLikes as $like) {
+
+            $this->likedProduct[] = $like->getProduct();
+        }
+
+        return $this->likedProduct;
     }
 }

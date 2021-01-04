@@ -170,18 +170,24 @@ class ProductController extends AbstractController
        
         if ($request->isMethod('POST')) {
 
-            $name = $request->get('name');
-            $info = $request->get('info');
+            $name        = $request->get('name');
+            $info        = $request->get('info');
+            $date = $request->get('date');
 
+            $public_date = date_create_from_format('Y-m-d', $date);
+            
             $product->setName($name);
             $product->setInfo($info);
-
+            $product->setPublicDate($public_date);
+            
             $this->entityManager->persist($product);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('user_product_list');
         }
 
+      
+        
         return $this->render('product/edit.html.twig', array(
             'product' => $product
 

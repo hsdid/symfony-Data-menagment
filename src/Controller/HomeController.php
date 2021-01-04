@@ -58,7 +58,7 @@ class HomeController extends AbstractController
 
      /** 
      * @Route("/home/sortByLike/ASC", name="homesortByLikeASC")
-     * Method({"GET","POST"})
+     * Method({"GET"})
      */
     public function sortByLikeASC () {
 
@@ -76,7 +76,7 @@ class HomeController extends AbstractController
 
     /** 
      * @Route("/home/sortByLike/DESC", name="homesortByLikeDESC")
-     * Method({"GET","POST"})
+     * Method({"GET"})
      */
     public function sortByLikeDESC () {
 
@@ -97,7 +97,7 @@ class HomeController extends AbstractController
 
      /** 
      * @Route("/home/sortByDate/ASC", name="homesortByDateASC")
-     * Method({"GET","POST"})
+     * Method({"GET"})
      */
     public function sortByDateASC () {
 
@@ -117,7 +117,7 @@ class HomeController extends AbstractController
 
     /** 
      * @Route("/home/sortByDate/DESC", name="homesortByDateDESC")
-     * Method({"GET","POST"})
+     * Method({"GET"})
      */
     public function sortByDateDESC () {
 
@@ -129,6 +129,27 @@ class HomeController extends AbstractController
         $user = $this->getUser();
         $userLikes = $user->getLikes();
 
+        
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
+
+    /** 
+     * @Route("/home/allLiked", name="likedProduct")
+     * Method({"GET"})
+     */
+    public function allLikedProduct () {
+
+
+        $user      = $this->getUser();
+        $products  = $user->getLikedProduct();
+        $userLikes = $user->getLikes();
+        
+        
         
         return $this->render('home/index.html.twig', array(
             'products' => $products,
