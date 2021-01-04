@@ -15,13 +15,67 @@
     <a href="/product" > Product Controller</a>
 
 
-    <ul>
+    
+    
+
        
-        
-        {% for product in products %}
-        <li> {{product.name}} <a href="/like/{{ product.id }}">like </a> </li>
-        
-    {% endfor %} 
-    </ul>
+    <div class="mt-4 ">
+            {% if products %}
+            <table class="table" id="products">
+                <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">name</th>
+                            <th scope="col">info</th>
+                            <th scope="col"><a href="/home/sortByDate"> public time</a> </th>
+                            <th scope="col">likes</th>
+                        </tr>
+                       
+                </thead>
+                <tbody>
+                
+                {% for product in products %}
+                
+                <tr>
+                   
+                    <td scope="row">{{ product.id }} </td>
+                    <td>{{ product.name }} </td>
+                    <td>{{ product.info }} </td>
+                    <td>{{ product.getPublicDate|date("Y-m-d") }} </td>
+                    <td>{{ product.likes.count }} </td>
+                    <td>
+                        {% set islike = 0 %}
+
+                         {% for like in userLikes %}
+                            {% if product.id == like.product.id %}
+                                {% set islike = 1 %}
+
+                                 <a href="/like/{{ product.id }}">unlike </a>
+                                
+                            {% endif %}
+                        {% endfor %}
+                        {% if islike == 0 %}
+
+                             <a href="/like/{{ product.id }}">like </a>
+
+                        {% endif %}
+                        {% set islike = 0 %}
+
+                    </td> 
+                </tr>
+
+                {% endfor %}
+                </tbody> 
+            </table>
+            {% else %}
+            You dont have any product
+
+            {% endif %}
+        </div>
+       
+
+  
+    
+
 </div>
 {% endblock %}

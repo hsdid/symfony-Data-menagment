@@ -56,7 +56,8 @@ class LikeController extends AbstractController
     public function toggleLike(int $id){
 
        
-        $user_id = $this->getUser()->getId();
+        $user = $this->getUser();
+        $user_id = $user->getId();
 
         $productLike = $this->likeProductRepository->findByUserIdAndProductId($user_id, $id);
 
@@ -65,12 +66,13 @@ class LikeController extends AbstractController
 
             $product = $this->productRepository->find($id);
 
+            
 
             $likeProduct = new LikeProduct();
             $likeProduct->setUser($this->getUser());
             $likeProduct->setProduct($product);
 
-
+            //$user->addLike($likeProduct);
 
             $this->entityManager->persist($likeProduct);
             $this->entityManager->flush();

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProductRepository;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 //use Symfony\Component\Security\Core\Security;
 class ProductController extends AbstractController
@@ -24,6 +25,7 @@ class ProductController extends AbstractController
 
     private $productRepository;
 
+
     public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository){
        
         $this->entityManager      = $entityManager;
@@ -35,11 +37,15 @@ class ProductController extends AbstractController
      
      */
     public function index(): Response 
-    {
-        $products = $this->productRepository->findAll();
+    {   
 
+        
+
+        $userProduct = $this->productRepository->findBy(['user' => $this->getUser()]);
+        
+        //dd($userProduct[0]->getLikes()[0] );
         return $this->render('product/index.html.twig', array(
-            'products' => $products
+            'products' => $userProduct
         ));
     }
 
@@ -60,17 +66,21 @@ class ProductController extends AbstractController
             $user = $this->getUser();
             
             if ($name && $info) {
+                
+               
 
                 $product = new Product();
 
                 $product->setName($name);
                 $product->setInfo($info);
                 $product->setUser($user);
-            
-            
+                $product->setPublicDate(new \DateTime());
+                
+                
                 $this->entityManager->persist($product);
                 $this->entityManager->flush();
-
+                
+                
                 return $this->redirectToRoute('product');
                 
             }
@@ -80,6 +90,75 @@ class ProductController extends AbstractController
         ));
 
     }
+
+    /** 
+     * @Route("/product/sortByDate/ASC", name="sortByDateASC")
+     * Method({"GET","POST"})
+     */
+    public function sortByDateASC () {
+
+        $userProduct = $this->productRepository->findBy(
+            ['user' => $this->getUser()],
+            ['public_date' => 'ASC']
+            
+        );
+
+        return $this->render('product/index.html.twig', array(
+            'products' => $userProduct
+        ));
+
+    }
+
+    /** 
+     * @Route("/product/sortByDate/DESC", name="sortByDateDESC")
+     * Method({"GET","POST"})
+     */
+    public function sortByDateDESC () {
+
+        $userProduct = $this->productRepository->findBy(
+            ['user' => $this->getUser()],
+            ['public_date' => 'DESC']
+            
+        );
+
+        return $this->render('product/index.html.twig', array(
+            'products' => $userProduct
+        ));
+
+    }
+
+
+
+    /** 
+     * @Route("/product/{id}", name="editProduct")
+     * Method({"GET","POST"})
+     */
+    public function editProduct(int $id, Request $request)
+    {
+       
+        $product = $this->productRepository->find($id);
+        
+       
+        if ($request->isMethod('POST')) {
+
+            $name = $request->get('name');
+            $info = $request->get('info');
+
+            $product->setName($name);
+            $product->setInfo($info);
+
+            $this->entityManager->persist($product);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('product');
+        }
+
+        return $this->render('product/edit.html.twig', array(
+            'product' => $product
+
+        ));
+    }
+
 
     /** 
      * @Route("/product/{id}", name="delProduct")
@@ -97,6 +176,7 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('product');
     }
+    
     
 
 

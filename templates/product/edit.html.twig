@@ -1,0 +1,37 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Edit Products
+{% endblock %}
+
+{% block body %}
+    {% if msg is defined %}
+        <div class="alert alert-danger">
+
+            {{msg}}
+
+        </div>       
+    {% endif %}
+
+    <form method="post">
+    
+
+        <label for="name">name</label>
+        <input type="text" name="name" id="inputName" class="form-control"  autofocus value="{{product.name}}">
+
+        <label for="info">info</label>
+        <input type="text" name="info" id="inputInfo" class="form-control" value="{{product.info}}">
+
+        
+
+        <button class="btn btn-lg btn-primary" type="submit">
+            edit product
+        </button>
+
+
+    </form>
+   
+   
+    
+{% endblock body %}

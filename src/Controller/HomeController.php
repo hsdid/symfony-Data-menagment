@@ -48,12 +48,12 @@ class HomeController extends AbstractController
         $products = $this->productRepository->findAll();
         $user = $this->getUser();
         $userLikes = $user->getLikes();
-        //var_dump($userLikes);
 
-
+      
+    
         return $this->render('home/index.html.twig', array(
             'products' => $products,
-            'userLikes' => count($userLikes)
+            'userLikes' => $userLikes
         ));
     }
 }

@@ -40,6 +40,13 @@ class Product
      */
     private $likes;
 
+
+    /**
+      * 
+     * @ORM\Column(type="date")
+     */
+    private $public_date;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -112,6 +119,18 @@ class Product
                 $like->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPublicDate(): ?\DateTimeInterface
+    {
+        return $this->public_date;
+    }
+
+    public function setPublicDate(\DateTimeInterface $public_date): self
+    {
+        $this->public_date = $public_date;
 
         return $this;
     }

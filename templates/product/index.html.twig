@@ -18,14 +18,54 @@
 
         </div> 
         {% endif %}      
-    <h1>Hello! ✅</h1>
-    <a href="/product/new"> add new product</a>
+    <h3>Your Product controller</h3>
+    <a class="btn btn-primary mt-4 " href="/product/new"> add new product</a>
     
-    <ul>
-    {% for product in products %}
-        <li> {{product.name}} <a href="/product/{{ product.id }}">del </a> </li>
-        
-    {% endfor %} 
-    </ul>
+    
+
+     
+        <div class="mt-4 ">
+            {% if products %}
+            <table class="table" id="products">
+                <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">name</th>
+                            <th scope="col">info</th>
+                            <th scope="col"><a href="/product/sortByDate/ASC"> public time</a> </th>
+                            <th scope="col">likes</th>
+                        </tr>
+                       
+                </thead>
+                <tbody>
+                
+                {% for product in products %}
+                
+                <tr>
+                   
+                    <td scope="row">{{ product.id }} </td>
+                    <td>{{ product.name }} </td>
+                    <td>{{ product.info }} </td>
+                    <td>{{ product.getPublicDate|date("Y-m-d") }} </td>
+                    <td>{{ product.likes.count }} </td>
+                    <td>
+                        <a href="/product/{{ product.id }}" class="btn btn-light">Edit</a>
+                        {# <a href="#" class="btn btn-danger delete-product" data-id="{{ product.id }}">Delete</a> #}
+                        <a href="/product/{{ product.id }}" class="btn btn-danger delete-product">Delete</a>
+                    </td> 
+                   
+                </tr>
+
+                {% endfor %}
+                </tbody> 
+            </table>
+            {% else %}
+            You dont have any product
+
+            {% endif %}
+        </div>
+    
+    
+    
 </div>
 {% endblock %}
