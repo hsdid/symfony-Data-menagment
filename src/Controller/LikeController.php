@@ -72,7 +72,7 @@ class LikeController extends AbstractController
             $likeProduct->setUser($this->getUser());
             $likeProduct->setProduct($product);
 
-            //$user->addLike($likeProduct);
+           
 
             $this->entityManager->persist($likeProduct);
             $this->entityManager->flush();

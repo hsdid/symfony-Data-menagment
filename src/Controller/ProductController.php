@@ -33,13 +33,11 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/product", name="product")
+     * @Route("/product", name="user_product_list")
      
      */
     public function index(): Response 
     {   
-
-        
 
         $userProduct = $this->productRepository->findBy(['user' => $this->getUser()]);
         
@@ -48,8 +46,6 @@ class ProductController extends AbstractController
             'products' => $userProduct
         ));
     }
-
-
 
 
     /**
@@ -81,7 +77,7 @@ class ProductController extends AbstractController
                 $this->entityManager->flush();
                 
                 
-                return $this->redirectToRoute('product');
+                return $this->redirectToRoute('user_product_list');
                 
             }
         }
@@ -127,10 +123,43 @@ class ProductController extends AbstractController
 
     }
 
+     /** 
+     * @Route("/product/sortByLike/ASC", name="productsortByLikeASC")
+     * Method({"GET","POST"})
+     */
+    public function sortByLikeASC () {
+
+        $user = $this->getUser();
+        
+
+        $products = $this->productRepository->findByUserProductASCLikes($user->getId());
+
+        return $this->render('product/index.html.twig', array(
+            'products' => $products,
+            
+        ));
+
+    }
+
+    /** 
+     * @Route("/product/sortByLike/DESC", name="productsortByLikeDESC")
+     * Method({"GET","POST"})
+     */
+    public function sortByLikeDESC () {
+
+        $user = $this->getUser();
+        
+        $products = $this->productRepository->findByUserProductDescLikes($user->getId());
+        
+        return $this->render('product/index.html.twig', array(
+            'products' => $products,
+        ));
+
+    }
 
 
     /** 
-     * @Route("/product/{id}", name="editProduct")
+     * @Route("/product/edit/{id}", name="editProduct")
      * Method({"GET","POST"})
      */
     public function editProduct(int $id, Request $request)
@@ -150,7 +179,7 @@ class ProductController extends AbstractController
             $this->entityManager->persist($product);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('product');
+            return $this->redirectToRoute('user_product_list');
         }
 
         return $this->render('product/edit.html.twig', array(
@@ -167,6 +196,7 @@ class ProductController extends AbstractController
     public function deleteProduct(int $id)
     {
        
+       
         $product = $this->productRepository->find($id);
         
         
@@ -174,7 +204,8 @@ class ProductController extends AbstractController
         $this->entityManager->remove($product);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('product');
+        return $this->redirectToRoute('user_product_list');
+        
     }
     
     

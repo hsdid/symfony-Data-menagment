@@ -49,13 +49,94 @@ class HomeController extends AbstractController
         $user = $this->getUser();
         $userLikes = $user->getLikes();
 
-      
-    
         return $this->render('home/index.html.twig', array(
             'products' => $products,
             'userLikes' => $userLikes
         ));
     }
+
+
+     /** 
+     * @Route("/home/sortByLike/ASC", name="homesortByLikeASC")
+     * Method({"GET","POST"})
+     */
+    public function sortByLikeASC () {
+
+        $user = $this->getUser();
+        $userLikes = $user->getLikes();
+
+        $products = $this->productRepository->productASCLikes();
+
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
+    /** 
+     * @Route("/home/sortByLike/DESC", name="homesortByLikeDESC")
+     * Method({"GET","POST"})
+     */
+    public function sortByLikeDESC () {
+
+        $products = $this->productRepository->productDescLikes();
+
+       
+        $user = $this->getUser();
+        $userLikes = $user->getLikes();
+
+        
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
+
+     /** 
+     * @Route("/home/sortByDate/ASC", name="homesortByDateASC")
+     * Method({"GET","POST"})
+     */
+    public function sortByDateASC () {
+
+        $user = $this->getUser();
+        $userLikes = $user->getLikes();
+
+        $products = $this->productRepository->findBy([],[
+            'public_date' => 'ASC'
+        ]);
+
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
+    /** 
+     * @Route("/home/sortByDate/DESC", name="homesortByDateDESC")
+     * Method({"GET","POST"})
+     */
+    public function sortByDateDESC () {
+
+        $products = $this->productRepository->findBy([],[
+            'public_date' => 'DESC'
+        ]);
+
+       
+        $user = $this->getUser();
+        $userLikes = $user->getLikes();
+
+        
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
 }
 
 

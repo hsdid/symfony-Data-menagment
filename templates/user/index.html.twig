@@ -18,40 +18,38 @@
 
         </div> 
         {% endif %}      
-    <h3>Your Product controller </h3>
-    <a class="btn btn-primary mt-4 " href="/product/new"> add new product</a>
-    
-    
-
-     
+    <h3>Users</h3>
+   
         <div class="mt-4 ">
-            {% if products %}
+            {% if users %}
             <table class="table" id="products">
                 <thead>
                         <tr>
                             <th scope="col">id</th>
                             <th scope="col">name</th>
-                            <th scope="col">info</th>
-                            <th scope="col"><a href="/product/sortByDate/ASC"> public time</a> </th>
+                            {# <th scope="col">info</th>
+                            <th scope="col"><a href="/product/sortByDate/ASC"> public time</a> </th> #}
+                            <th scope="col">products</th>
                             <th scope="col">likes</th>
                         </tr>
                        
                 </thead>
                 <tbody>
                 
-                {% for product in products %}
+                {% for user in users %}
                 
                 <tr>
                    
-                    <td scope="row">{{ product.id }} </td>
-                    <td>{{ product.name }} </td>
-                    <td>{{ product.info }} </td>
-                    <td>{{ product.getPublicDate|date("Y-m-d") }} </td>
-                    <td>{{ product.likes.count }} </td>
+                    <td scope="row">{{ user.id }} </td>
+                    <td>{{ user.username }} </td>
+                   
+                    {# <td>{{ product.getPublicDate|date("Y-m-d") }} </td> #}
+                    <td>{{ user.products.count }} </td>
+                    <td>{{ user.likes.count }} </td>
                     <td>
-                        <a href="/product/edit/{{ product.id }}" class="btn btn-light">Edit</a>
-                        {# <a href="#" class="btn btn-danger delete-product" data-id="{{ product.id }}">Delete</a> #}
-                        <a href="/product/{{ product.id }}" class="btn btn-danger delete-product">Delete</a>
+                        {# <a href="/product/{{ product.id }}" class="btn btn-light">Edit</a>
+                       
+                        <a href="/product/{{ product.id }}" class="btn btn-danger delete-product">Delete</a> #}
                     </td> 
                    
                 </tr>
@@ -59,9 +57,6 @@
                 {% endfor %}
                 </tbody> 
             </table>
-            {% else %}
-            You dont have any product
-
             {% endif %}
         </div>
     

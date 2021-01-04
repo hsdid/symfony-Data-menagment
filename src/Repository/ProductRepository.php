@@ -47,4 +47,67 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function productDescLikes() {
+
+        $qb = $this->createQueryBuilder('p')
+        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
+        ->leftJoin('p.likes', 'u') 
+        ->orderBy('nbrLikes', 'DESC')
+        ->groupBy('p')
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
+    public function productASCLikes() {
+
+        $qb = $this->createQueryBuilder('p')
+        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
+        ->leftJoin('p.likes', 'u') 
+        ->orderBy('nbrLikes', 'ASC')
+        ->groupBy('p')
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
+
+    public function findByUserProductDescLikes(int $userId) {
+
+        $qb = $this->createQueryBuilder('p')
+        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
+        ->where('p.user =?1')
+        ->leftJoin('p.likes', 'u') 
+        ->orderBy('nbrLikes', 'DESC')
+        ->groupBy('p')
+        ->setParameter('1', $userId)
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
+    public function findByUserProductASCLikes(int $userId) {
+
+        $qb = $this->createQueryBuilder('p')
+        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
+        ->leftJoin('p.likes', 'u') 
+        
+        ->orderBy('nbrLikes', 'ASC')
+        ->groupBy('p')
+        ->where('p.user =?1')
+        ->setParameter('1', $userId)
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
 }

@@ -37,6 +37,7 @@ class Product
     
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\LikeProduct", mappedBy="product", cascade={"REMOVE"})
+     * 
      */
     private $likes;
 
