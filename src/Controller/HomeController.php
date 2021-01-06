@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\String_;
+
 class HomeController extends AbstractController
 {
 
@@ -57,15 +59,15 @@ class HomeController extends AbstractController
 
 
      /** 
-     * @Route("/home/sortByLike/ASC", name="homesortByLikeASC")
+     * @Route("/home/sortByLike/{sort}", name="homesortByLike")
      * Method({"GET"})
      */
-    public function sortByLikeASC () {
+    public function sortByLike (string $sort) {
 
         $user = $this->getUser();
         $userLikes = $user->getLikes();
 
-        $products = $this->productRepository->productASCLikes();
+        $products = $this->productRepository->findByLikes($sort);
 
         return $this->render('home/index.html.twig', array(
             'products' => $products,
@@ -74,38 +76,20 @@ class HomeController extends AbstractController
 
     }
 
-    /** 
-     * @Route("/home/sortByLike/DESC", name="homesortByLikeDESC")
-     * Method({"GET"})
-     */
-    public function sortByLikeDESC () {
 
-        $products = $this->productRepository->productDescLikes();
-
-       
-        $user = $this->getUser();
-        $userLikes = $user->getLikes();
-
-        
-        return $this->render('home/index.html.twig', array(
-            'products' => $products,
-            'userLikes' => $userLikes
-        ));
-
-    }
 
 
      /** 
-     * @Route("/home/sortByDate/ASC", name="homesortByDateASC")
+     * @Route("/home/sortByDate/{sort}", name="homesortByDate")
      * Method({"GET"})
      */
-    public function sortByDateASC () {
+    public function sortByDate (string $sort) {
 
         $user = $this->getUser();
         $userLikes = $user->getLikes();
 
         $products = $this->productRepository->findBy([],[
-            'public_date' => 'ASC'
+            'public_date' => $sort
         ]);
 
         return $this->render('home/index.html.twig', array(
@@ -115,27 +99,7 @@ class HomeController extends AbstractController
 
     }
 
-    /** 
-     * @Route("/home/sortByDate/DESC", name="homesortByDateDESC")
-     * Method({"GET"})
-     */
-    public function sortByDateDESC () {
-
-        $products = $this->productRepository->findBy([],[
-            'public_date' => 'DESC'
-        ]);
-
-       
-        $user = $this->getUser();
-        $userLikes = $user->getLikes();
-
-        
-        return $this->render('home/index.html.twig', array(
-            'products' => $products,
-            'userLikes' => $userLikes
-        ));
-
-    }
+   
 
 
     /** 

@@ -66,55 +66,28 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     */
 
 
-    public function userDescProducts() {
+   
+    public function userByNumOfProducts(string $sort) {
 
         $qb = $this->createQueryBuilder('u')
         ->select('COUNT(p) AS HIDDEN nbrProducts', 'u')
         ->leftJoin('u.products', 'p') 
-        ->orderBy('nbrProducts', 'DESC')
+        ->orderBy('nbrProducts', $sort)
         ->groupBy('u')
         ->getQuery()
         ->getResult()
-    ;
-
-    return $qb;
-    }
-
-    public function userASCProducts() {
-
-        $qb = $this->createQueryBuilder('u')
-        ->select('COUNT(p) AS HIDDEN nbrProducts', 'u')
-        ->leftJoin('u.products', 'p') 
-        ->orderBy('nbrProducts', 'ASC')
-        ->groupBy('u')
-        ->getQuery()
-        ->getResult()
-    ;
+        ;
 
     return $qb;
     }
 
 
-    public function userDescLikes() {
+    public function userByNumOfLikes(string $sort) {
 
         $qb = $this->createQueryBuilder('u')
         ->select('COUNT(l) AS HIDDEN nbrLikes', 'u')
         ->leftJoin('u.likes', 'l') 
-        ->orderBy('nbrLikes', 'DESC')
-        ->groupBy('u')
-        ->getQuery()
-        ->getResult()
-    ;
-
-    return $qb;
-    }
-
-    public function userASCLikes() {
-
-        $qb = $this->createQueryBuilder('u')
-        ->select('COUNT(l) AS HIDDEN nbrLikes', 'u')
-        ->leftJoin('u.likes', 'l') 
-        ->orderBy('nbrLikes', 'ASC')
+        ->orderBy('nbrLikes', $sort)
         ->groupBy('u')
         ->getQuery()
         ->getResult()

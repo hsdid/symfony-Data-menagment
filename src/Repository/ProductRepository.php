@@ -48,12 +48,12 @@ class ProductRepository extends ServiceEntityRepository
     }
     */
 
-    public function productDescLikes() {
+    public function findByLikes(string $sort) {
 
         $qb = $this->createQueryBuilder('p')
         ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
         ->leftJoin('p.likes', 'u') 
-        ->orderBy('nbrLikes', 'DESC')
+        ->orderBy('nbrLikes', $sort)
         ->groupBy('p')
         ->getQuery()
         ->getResult()
@@ -62,28 +62,16 @@ class ProductRepository extends ServiceEntityRepository
     return $qb;
     }
 
-    public function productASCLikes() {
-
-        $qb = $this->createQueryBuilder('p')
-        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
-        ->leftJoin('p.likes', 'u') 
-        ->orderBy('nbrLikes', 'ASC')
-        ->groupBy('p')
-        ->getQuery()
-        ->getResult()
-    ;
-
-    return $qb;
-    }
+   
 
 
-    public function findByUserProductDescLikes(int $userId) {
+    public function findByUserIdProductLikes(int $userId, string $sort) {
 
         $qb = $this->createQueryBuilder('p')
         ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
         ->where('p.user =?1')
         ->leftJoin('p.likes', 'u') 
-        ->orderBy('nbrLikes', 'DESC')
+        ->orderBy('nbrLikes', $sort)
         ->groupBy('p')
         ->setParameter('1', $userId)
         ->getQuery()
@@ -93,25 +81,10 @@ class ProductRepository extends ServiceEntityRepository
     return $qb;
     }
 
-    public function findByUserProductASCLikes(int $userId) {
-
-        $qb = $this->createQueryBuilder('p')
-        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
-        ->leftJoin('p.likes', 'u') 
-        
-        ->orderBy('nbrLikes', 'ASC')
-        ->groupBy('p')
-        ->where('p.user =?1')
-        ->setParameter('1', $userId)
-        ->getQuery()
-        ->getResult()
-    ;
-
-    return $qb;
-    }
+   
 
 
-    public function findByUserIdProductsLikesSort(int $userId, string $sort) {
+    public function findByUserIdNumberOfProductLikes(int $userId, string $sort) {
 
         $qb = $this->createQueryBuilder('p')
         ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')

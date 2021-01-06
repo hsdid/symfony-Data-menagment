@@ -33,7 +33,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/product", name="user_product_list")
+     * @Route("/product", name="userProductList")
      
      */
     public function index(): Response 
@@ -88,51 +88,35 @@ class ProductController extends AbstractController
     }
 
     /** 
-     * @Route("/product/sortByDate/ASC", name="sortByDateASC")
+     * @Route("/product/sortByDate/{sort}", name="productSortByDate")
      * Method({"GET","POST"})
      */
-    public function sortByDateASC () {
+    public function sortByDate (string $sort) {
 
         $userProduct = $this->productRepository->findBy(
             ['user' => $this->getUser()],
-            ['public_date' => 'ASC']
+            ['public_date' => $sort]
             
         );
 
         return $this->render('product/index.html.twig', array(
             'products' => $userProduct
         ));
-
+        
     }
 
-    /** 
-     * @Route("/product/sortByDate/DESC", name="sortByDateDESC")
-     * Method({"GET","POST"})
-     */
-    public function sortByDateDESC () {
 
-        $userProduct = $this->productRepository->findBy(
-            ['user' => $this->getUser()],
-            ['public_date' => 'DESC']
-            
-        );
-
-        return $this->render('product/index.html.twig', array(
-            'products' => $userProduct
-        ));
-
-    }
 
      /** 
-     * @Route("/product/sortByLike/ASC", name="productsortByLikeASC")
+     * @Route("/product/sortByLike/{sort}", name="productSortByLike")
      * Method({"GET","POST"})
      */
-    public function sortByLikeASC () {
+    public function sortByLike (string $sort) {
 
         $user = $this->getUser();
         
-
-        $products = $this->productRepository->findByUserProductASCLikes($user->getId());
+       
+        $products = $this->productRepository->findByUserIdProductLikes($user->getId(), $sort);
 
         return $this->render('product/index.html.twig', array(
             'products' => $products,
@@ -141,21 +125,7 @@ class ProductController extends AbstractController
 
     }
 
-    /** 
-     * @Route("/product/sortByLike/DESC", name="productsortByLikeDESC")
-     * Method({"GET","POST"})
-     */
-    public function sortByLikeDESC () {
-
-        $user = $this->getUser();
-        
-        $products = $this->productRepository->findByUserProductDescLikes($user->getId());
-        
-        return $this->render('product/index.html.twig', array(
-            'products' => $products,
-        ));
-
-    }
+    
 
 
     /** 

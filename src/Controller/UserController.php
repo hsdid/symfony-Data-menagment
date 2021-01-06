@@ -56,14 +56,15 @@ class UserController extends AbstractController
         ));
     }
 
+
     /** 
-     * @Route("/user/sortByProducts/DESC", name="userSortByProductsDESC")
+     * @Route("/user/sortByNumOfPRoducts/{sort}", name="userProductsSortByProductsNumber")
      * Method({"GET"})
      */
-    public function sortByProductsDESC () {
+    public function sortByProductsDESC(string $sort) {
 
         
-        $users = $this->userRepository->userDescProducts();
+        $users = $this->userRepository->userByNumOfProducts($sort);
         
         
         return $this->render('user/index.html.twig', array(
@@ -74,13 +75,13 @@ class UserController extends AbstractController
 
 
     /** 
-     * @Route("/user/sortByProducts/ASC", name="userSortByProductsASC")
+     * @Route("/user/sortByLikes/{sort}", name="userSortByLikesNumber")
      * Method({"GET"})
      */
-    public function sortByProductsASC () {
+    public function sortByLikesDESC (string $sort) {
 
         
-        $users = $this->userRepository->userASCProducts();
+        $users = $this->userRepository->userByNumOfLikes($sort);
         
         
         return $this->render('user/index.html.twig', array(
@@ -89,38 +90,6 @@ class UserController extends AbstractController
 
     }
 
-    /** 
-     * @Route("/user/sortByLikes/DESC", name="userSortByLikesDESC")
-     * Method({"GET"})
-     */
-    public function sortByLikesDESC () {
-
-        
-        $users = $this->userRepository->userDescLikes();
-        
-        
-        return $this->render('user/index.html.twig', array(
-            'users' => $users,
-        ));
-
-    }
-
-
-    /** 
-     * @Route("/user/sortByLikes/ASC", name="userSortByLikesASC")
-     * Method({"GET"})
-     */
-    public function sortByLikesASC () {
-
-        
-        $users = $this->userRepository->userASCLikes();
-        
-        
-        return $this->render('user/index.html.twig', array(
-            'users' => $users,
-        ));
-
-    }
 
 
     /** 
@@ -152,7 +121,7 @@ class UserController extends AbstractController
 
         $user = $this->userRepository->find($id);
 
-        $products = $this->productRepository->findByUserIdProductsLikesSort($id, $sort);
+        $products = $this->productRepository->findByUserIdNumberOfProductLikes($id, $sort);
         
         
         return $this->render('user/products.html.twig', array(

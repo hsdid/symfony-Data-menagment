@@ -38,19 +38,11 @@ class LikeController extends AbstractController
         $this->productRepository     = $productRepository;
         $this->likeProductRepository = $likeProductRepository;
     }
-    /**
-     * @Route("/like", name="like")
-     */
-    public function index(): Response
-    {
-        return $this->render('like/index.html.twig', [
-            'controller_name' => 'LikeController',
-        ]);
-    }
+   
 
 
     /**
-     * @Route("/like/{id}", name="like")
+     * @Route("/like/{id}", name="toggleLike")
      * 
      */
     public function toggleLike(int $id){
