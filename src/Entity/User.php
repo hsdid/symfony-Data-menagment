@@ -197,7 +197,7 @@ class User implements UserInterface
      */
     public function getLikedProduct()
     {
-        //dd($userLikes[0]->getProduct());
+        
         $userLikes = $this->getLikes();
         
         foreach ($userLikes as $like) {

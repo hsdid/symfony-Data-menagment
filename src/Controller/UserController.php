@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,11 +25,18 @@ class UserController extends AbstractController
 
     private $userRepository;
 
+    /**
+     * @var ProductRepository
+     */
+
+    private $productRepository;
+
     
-    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository){
+    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, ProductRepository $productRepository){
        
         $this->entityManager      = $entityManager;
         $this->userRepository     = $userRepository;
+        $this->productRepository  = $productRepository;
     }
 
 
@@ -113,6 +121,70 @@ class UserController extends AbstractController
         ));
 
     }
+
+
+    /** 
+     * @Route("/user/{id}/products", name="userProductById")
+     * Method({"GET"})
+     */
+    public function userProductById (int $id) {
+
+        
+        $user = $this->userRepository->find($id);
+
+        $products = $user->getProducts();
+        
+        
+        return $this->render('user/products.html.twig', array(
+
+            'products' => $products,
+            'user'     => $user
+
+        ));
+
+    }
+
+     /** 
+     * @Route("/user/{id}/products/sortByLikes/{sort}", name="userProductsSortLikes")
+     * Method({"GET"})
+     */
+    public function sortUserProductsByLike (int $id, string $sort) {
+
+        $user = $this->userRepository->find($id);
+
+        $products = $this->productRepository->findByUserIdProductsLikesSort($id, $sort);
+        
+        
+        return $this->render('user/products.html.twig', array(
+            'user'     => $user,
+            'products' => $products
+        ));
+
+    }
+
+    /** 
+     * @Route("/user/{id}/products/sortByPublicTime/{sort}", name="userProductsSortPublicTime")
+     * Method({"GET"})
+     */
+    public function sortUserProductsByPublicTime (int $id, string $sort) {
+
+
+        $user = $this->userRepository->find($id);
+
+        $products = $this->productRepository->findBy(
+            ['user'        => $user],
+            ['public_date' => $sort]
+        );
+        
+        
+        return $this->render('user/products.html.twig', array(
+            'user'     => $user,
+            'products' => $products
+        ));
+
+    }
+
+
 
     
 

@@ -110,4 +110,22 @@ class ProductRepository extends ServiceEntityRepository
     return $qb;
     }
 
+
+    public function findByUserIdProductsLikesSort(int $userId, string $sort) {
+
+        $qb = $this->createQueryBuilder('p')
+        ->select('COUNT(u) AS HIDDEN nbrLikes', 'p')
+        ->leftJoin('p.likes', 'u') 
+        
+        ->orderBy('nbrLikes', $sort)
+        ->groupBy('p')
+        ->where('p.user =?1')
+        ->setParameter('1', $userId)
+        ->getQuery()
+        ->getResult()
+    ;
+
+    return $qb;
+    }
+
 }

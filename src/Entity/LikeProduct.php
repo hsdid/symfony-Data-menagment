@@ -32,6 +32,9 @@ class LikeProduct
     private $product;
 
 
+    
+
+
 
     public function getId(): ?int
     {
@@ -61,4 +64,6 @@ class LikeProduct
 
         return $this;
     }
+
+    
 }

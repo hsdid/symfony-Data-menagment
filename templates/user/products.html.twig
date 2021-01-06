@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 <style>
@@ -18,42 +18,44 @@
 
         </div> 
         {% endif %}      
-    <h3>Users</h3>
-   
+    <h3>All {{user.username}} products</h3>
+    
         <div class="mt-4 ">
-            {% if users %}
+            {% if products is defined %}
             <table class="table" id="products">
                 <thead>
                         <tr>
                             <th scope="col">id</th>
                             <th scope="col">name</th>
-                            {# <th scope="col">info</th>
-                            <th scope="col"><a href="/product/sortByDate/ASC"> public time</a> </th> #}
-                            <th scope="col"> <a href="/user/sortByProducts/ASC"> products</a></th>
-                            <th scope="col"><a href="/user/sortByLikes/DESC"> likes</a></th>
-                            
-                        </tr>
+                            <th scope="col">info</th>
+                            <th scope="col"><a href="/user/{{user.id}}/products/sortByPublicTime/DESC"> public time</a> </th>
+                            <th scope="col"><a href="/user/{{user.id}}/products/sortByLikes/DESC"> likes </a></th>
+                        </tr>       
                        
                 </thead>
                 <tbody>
                 
-                {% for user in users %}
+                {% for product in products %}
                 
                 <tr>
                    
-                    <td scope="row">{{ user.id }} </td>
-                    <td> <a href="/user/{{user.id}}/products"> {{ user.username }}</a> </td>
-                   
-                    {# <td>{{ product.getPublicDate|date("Y-m-d") }} </td> #}
-                    <td>{{ user.products.count }} </td>
-                    <td>{{ user.likes.count }} </td>
-                   
+                    <td scope="row">{{ product.id }} </td>
+                    <td>{{ product.name }} </td>
+                    <td>{{ product.info }} </td>
+                    <td>{{ product.getPublicDate|date("Y-m-d") }} </td>
+                    <td>{{ product.likes.count }} </td>
+                    <td>
+                      
+                    </td> 
                    
                 </tr>
 
                 {% endfor %}
                 </tbody> 
             </table>
+            {% else %}
+            You dont have any product
+
             {% endif %}
         </div>
     
