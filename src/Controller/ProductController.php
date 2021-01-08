@@ -41,7 +41,7 @@ class ProductController extends AbstractController
 
         $userProduct = $this->productRepository->findBy(['user' => $this->getUser()]);
         
-        //dd($userProduct[0]->getLikes()[0] );
+        
         return $this->render('product/index.html.twig', array(
             'products' => $userProduct
         ));
@@ -70,6 +70,7 @@ class ProductController extends AbstractController
                 $product->setName($name);
                 $product->setInfo($info);
                 $product->setUser($user);
+                
                 $product->setPublicDate(new \DateTime());
                 
                 
@@ -77,7 +78,7 @@ class ProductController extends AbstractController
                 $this->entityManager->flush();
                 
                 
-                return $this->redirectToRoute('user_product_list');
+                return $this->redirectToRoute('userProductList');
                 
             }
         }
@@ -140,8 +141,8 @@ class ProductController extends AbstractController
        
         if ($request->isMethod('POST')) {
 
-            $name        = $request->get('name');
-            $info        = $request->get('info');
+            $name = $request->get('name');
+            $info = $request->get('info');
             $date = $request->get('date');
 
             $public_date = date_create_from_format('Y-m-d', $date);
@@ -153,7 +154,7 @@ class ProductController extends AbstractController
             $this->entityManager->persist($product);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('user_product_list');
+            return $this->redirectToRoute('userProductList');
         }
 
       
@@ -172,15 +173,12 @@ class ProductController extends AbstractController
     public function deleteProduct(int $id)
     {
        
-       
         $product = $this->productRepository->find($id);
         
-        
-
         $this->entityManager->remove($product);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('user_product_list');
+        return $this->redirectToRoute('userProductList');
         
     }
     
