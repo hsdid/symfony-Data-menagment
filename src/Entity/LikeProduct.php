@@ -31,7 +31,11 @@ class LikeProduct
      */
     private $product;
 
-
+    /**
+      * 
+     * @ORM\Column(type="date")
+     */
+    private $createdAt;
     
 
 
@@ -61,6 +65,18 @@ class LikeProduct
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

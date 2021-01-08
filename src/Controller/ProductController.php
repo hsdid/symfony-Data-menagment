@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProductRepository;
 use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Security\Voter\AuthorVoter;
 //use Symfony\Component\Security\Core\Security;
 class ProductController extends AbstractController
 {
@@ -43,7 +44,8 @@ class ProductController extends AbstractController
         
         
         return $this->render('product/index.html.twig', array(
-            'products' => $userProduct
+            'products' => $userProduct,
+          
         ));
     }
 
@@ -55,6 +57,10 @@ class ProductController extends AbstractController
 
     public function addProduct(Request $request) {
         
+
+        //$this->denyAccessUnlessGranted('ROLE_USER');
+
+
         if ($request->isMethod('POST')) {
 
             $name = $request->get('name');
@@ -105,9 +111,7 @@ class ProductController extends AbstractController
         ));
         
     }
-
-
-
+    
      /** 
      * @Route("/product/sortByLike/{sort}", name="productSortByLike")
      * Method({"GET","POST"})
@@ -138,7 +142,14 @@ class ProductController extends AbstractController
        
         $product = $this->productRepository->find($id);
         
+        
+        
+        if (!$this->isGranted(AuthorVoter::EDIT, $product)) {
+            
+            return $this->redirectToRoute('userProductList');
+        }
        
+
         if ($request->isMethod('POST')) {
 
             $name = $request->get('name');
@@ -157,12 +168,12 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('userProductList');
         }
 
-      
-        
         return $this->render('product/edit.html.twig', array(
             'product' => $product
-
+            
         ));
+        
+       
     }
 
 
@@ -174,6 +185,12 @@ class ProductController extends AbstractController
     {
        
         $product = $this->productRepository->find($id);
+
+
+        if (!$this->isGranted(AuthorVoter::DELETE, $product)) {
+            
+            return $this->redirectToRoute('userProductList');
+        }
         
         $this->entityManager->remove($product);
         $this->entityManager->flush();

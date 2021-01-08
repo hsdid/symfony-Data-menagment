@@ -45,7 +45,11 @@
                     <td>{{ product.getPublicDate|date("Y-m-d") }} </td>
                     <td>{{ product.likes.count }} </td>
                     <td>
-                      
+                       <td>
+                        <a href="/product/edit/{{ product.id }}" class="btn btn-light">Edit</a>
+                        {# <a href="#" class="btn btn-danger delete-product" data-id="{{ product.id }}">Delete</a> #}
+                        <a href="/product/{{ product.id }}" class="btn btn-danger delete-product">Delete</a>
+                    </td> 
                     </td> 
                    
                 </tr>

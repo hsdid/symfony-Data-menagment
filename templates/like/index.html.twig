@@ -29,10 +29,10 @@
             <table class="table" id="products">
                 <thead>
                         <tr>
-                            <th scope="col">id</th>
+                            <th scope="col">product id</th>
                             <th scope="col">product name</th>
                             <th scope="col">get like from</th>
-                            <th scope="col"><a href="/product/sortByDate/ASC"> public time</a> </th>
+                            <th scope="col"><a href="/product/sortByDate/ASC"> Like given </a> </th>
                            
                         </tr>
                        
@@ -46,7 +46,7 @@
                     <td scope="row">{{ product.id }} </td>
                     <td>{{ product.name}} </td>
                     <td><a href="/user/{{like.getUser.getId}}/products"> {{ like.getUser.getUsername}} </a></td>
-                    <td>{{ product.getPublicDate|date("Y-m-d") }} </td>
+                    <td>{{ like.getCreatedAt|date("Y-m-d") }} </td>
                     
                     
                    

@@ -66,15 +66,13 @@ class LikeController extends AbstractController
 
 
         if (!$productLike) {
-
-            $product = $this->productRepository->find($id);
-
             
+            $product = $this->productRepository->find($id);
 
             $likeProduct = new LikeProduct();
             $likeProduct->setUser($this->getUser());
             $likeProduct->setProduct($product);
-
+            $likeProduct->setCreatedAt(new \DateTime());
            
 
             $this->entityManager->persist($likeProduct);
