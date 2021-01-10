@@ -45,6 +45,7 @@ class LikeController extends AbstractController
     public function likedProducts() {
 
         $user = $this->getUser();
+        
         $products = $user->getProducts();
         
         return $this->render('like/index.html.twig', array(

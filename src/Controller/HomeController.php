@@ -77,8 +77,6 @@ class HomeController extends AbstractController
     }
 
 
-
-
      /** 
      * @Route("/home/sortByDate/{sort}", name="homesortByDate")
      * Method({"GET"})
@@ -100,8 +98,6 @@ class HomeController extends AbstractController
     }
 
    
-
-
     /** 
      * @Route("/home/allLiked", name="likedProduct")
      * Method({"GET"})

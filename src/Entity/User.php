@@ -207,4 +207,10 @@ class User implements UserInterface
 
         return $this->likedProduct;
     }
+
+
+    public function __toString()
+    {
+        return $this->username;
+    }
 }
