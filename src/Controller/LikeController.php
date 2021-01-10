@@ -53,6 +53,28 @@ class LikeController extends AbstractController
         ));
     }
 
+
+    /** 
+     * @Route("/like/sortByName/{sort}", name="likeSortByProductName")
+     */
+
+    public function sortByProductName(string $sort){
+
+        $user = $this->getUser();
+        
+        $products = $this->productRepository->findBy(
+            ['user' => $user],
+            ['name' => $sort]
+        );
+
+        return $this->render('like/index.html.twig', array(
+            'products' => $products
+        ));
+    }
+
+    
+
+
     /**
      * @Route("/like/{id}", name="toggleLike")
      * 
@@ -87,4 +109,8 @@ class LikeController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
+
+
+
+
 }

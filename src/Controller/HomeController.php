@@ -78,7 +78,7 @@ class HomeController extends AbstractController
 
 
      /** 
-     * @Route("/home/sortByDate/{sort}", name="homesortByDate")
+     * @Route("/home/sortByDate/{sort}", name="homeSortByDate")
      * Method({"GET"})
      */
     public function sortByDate (string $sort) {
@@ -109,6 +109,51 @@ class HomeController extends AbstractController
         $products  = $user->getLikedProduct();
         $userLikes = $user->getLikes();
         
+        
+        
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
+
+     /** 
+     * @Route("/home/sortByName/{sort}", name="homeSortByName")
+     * Method({"GET"})
+     */
+    public function sortByName (string $sort) {
+
+
+        $user = $this->getUser();
+        $userLikes = $user->getLikes();
+
+        $products = $this->productRepository->findBy([],[
+            'name' => $sort
+        ]);
+        
+        
+        return $this->render('home/index.html.twig', array(
+            'products' => $products,
+            'userLikes' => $userLikes
+        ));
+
+    }
+
+     /** 
+     * @Route("/home/sortByInfo/{sort}", name="homeSortByInfo")
+     * Method({"GET"})
+     */
+    public function sortByInfo (string $sort) {
+
+
+        $user = $this->getUser();
+        $userLikes = $user->getLikes();
+
+        $products = $this->productRepository->findBy([],[
+            'info' => $sort
+        ]);
         
         
         return $this->render('home/index.html.twig', array(

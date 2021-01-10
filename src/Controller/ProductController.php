@@ -70,7 +70,6 @@ class ProductController extends AbstractController
             if ($name && $info) {
                 
                
-
                 $product = new Product();
 
                 $product->setName($name);
@@ -103,6 +102,43 @@ class ProductController extends AbstractController
         $userProduct = $this->productRepository->findBy(
             ['user' => $this->getUser()],
             ['public_date' => $sort]
+            
+        );
+
+        return $this->render('product/index.html.twig', array(
+            'products' => $userProduct
+        ));
+        
+    }
+
+
+    /** 
+     * @Route("/product/sortByName/{sort}", name="productSortByName")
+     * Method({"GET","POST"})
+     */
+    public function sortByName (string $sort) {
+
+        $userProduct = $this->productRepository->findBy(
+            ['user' => $this->getUser()],
+            ['name' => $sort]
+            
+        );
+
+        return $this->render('product/index.html.twig', array(
+            'products' => $userProduct
+        ));
+        
+    }
+
+    /** 
+     * @Route("/product/sortByInfo/{sort}", name="productSortByInfo")
+     * Method({"GET","POST"})
+     */
+    public function sortByInfo (string $sort) {
+
+        $userProduct = $this->productRepository->findBy(
+            ['user' => $this->getUser()],
+            ['info' => $sort]
             
         );
 
@@ -199,7 +235,5 @@ class ProductController extends AbstractController
         
     }
     
-    
-
 
 }

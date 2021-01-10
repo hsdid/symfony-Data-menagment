@@ -50,7 +50,6 @@ class UserController extends AbstractController
         $users = $this->userRepository->findAll();
 
        
-
         return $this->render('user/index.html.twig', array(
             'users' => $users
         ));
@@ -61,7 +60,7 @@ class UserController extends AbstractController
      * @Route("/user/sortByNumOfPRoducts/{sort}", name="userProductsSortByProductsNumber")
      * Method({"GET"})
      */
-    public function sortByProductsDESC(string $sort) {
+    public function sortByProducts(string $sort) {
 
         
         $users = $this->userRepository->userByNumOfProducts($sort);
@@ -78,7 +77,7 @@ class UserController extends AbstractController
      * @Route("/user/sortByLikes/{sort}", name="userSortByLikesNumber")
      * Method({"GET"})
      */
-    public function sortByLikesDESC (string $sort) {
+    public function sortByLikes (string $sort) {
 
         
         $users = $this->userRepository->userByNumOfLikes($sort);
@@ -91,12 +90,30 @@ class UserController extends AbstractController
     }
 
 
-
-    /** 
-     * @Route("/user/{id}/products", name="userProductById")
+/** 
+     * @Route("/user/sortByName/{sort}", name="userSortByName")
      * Method({"GET"})
      */
-    public function userProductById (int $id) {
+    public function sortByName (string $sort) {
+
+
+        $users = $this->userRepository->findBy([],
+            ['username' => $sort]
+        );
+        
+        
+        return $this->render('user/index.html.twig', array(
+            'users'     => $users,
+        ));
+
+    }
+   
+
+    /** 
+     * @Route("/user/{id}/products", name="userProductsByUserId")
+     * Method({"GET"})
+     */
+    public function userProductsByUserId (int $id) {
 
         
         $user = $this->userRepository->find($id);
@@ -110,8 +127,56 @@ class UserController extends AbstractController
             'user'     => $user
 
         ));
+    }
+
+
+
+    /** 
+     * @Route("/user/{id}/products/sortByName/{sort}", name="userProductsByName")
+     * Method({"GET"})
+     */
+    public function sortUserProductByName (int $id, string $sort) {
+
+        $user = $this->userRepository->find($id);
+
+        $products = $this->productRepository->findBy(
+            ['user' => $user],
+            ['name' => $sort]
+        );
+        
+        
+        return $this->render('user/products.html.twig', array(
+            'user'     => $user,
+            'products' => $products
+        ));
 
     }
+
+    /** 
+     * @Route("/user/{id}/products/sortByInfo/{sort}", name="userProductsByInfo")
+     * Method({"GET"})
+     */
+    public function sortUserProductByInfo (int $id, string $sort) {
+
+        $user = $this->userRepository->find($id);
+
+        $products = $this->productRepository->findBy(
+            ['user' => $user],
+            ['info' => $sort]
+        );
+        
+        
+        return $this->render('user/products.html.twig', array(
+            'user'     => $user,
+            'products' => $products
+        ));
+
+    }
+   
+   
+
+  
+
 
      /** 
      * @Route("/user/{id}/products/sortByLikes/{sort}", name="userProductsSortLikes")
