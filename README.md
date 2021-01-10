@@ -2,8 +2,9 @@
 
 Basic Data menagment of 3 Modules: User, Product and Like 
 
-User can add and edit Product , like another products ,see products of other users,
-see who liked your product and when.
+User can add and edit Product, like another products, get list of liked products ,see products of other users,
+see who liked your own product and when.
+
 
 Product can be sorted by - Name, Info , Data Public, Likes
 User can be sorted by - Username, Numbers of products, Numbers of likes
